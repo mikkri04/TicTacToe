@@ -1,22 +1,33 @@
 
 package dk.easv.tictactoe.bll;
 
+import javafx.scene.control.Button;
+
 /**
  *
  * @author EASV
  */
 public class GameBoard implements IGameBoard
 {
+    private int activePlayer = 1;
+    private int[][] board = new int[3][3];
+    private int placed = 0;
 
     /**
      * Returns 0 for player 0, 1 for player 1.
      *
      * @return int Id of the next player.
      */
-    public int getNextPlayer()
+    public int setNextPlayer()
     {
-        //TODO Implement this method
-        return 0;
+        System.out.println("Swapped");
+        if (activePlayer == 0) {activePlayer = 1;}
+        else {activePlayer = 0;}
+        return activePlayer;
+    }
+
+    public int getCurrentPlayer() {
+        return activePlayer;
     }
 
     /**
@@ -29,10 +40,26 @@ public class GameBoard implements IGameBoard
      * @return true if the move is accepted, otherwise false. If gameOver == true
      * this method will always return false.
      */
-    public boolean play(int col, int row)
+    public boolean play(int col, int row, int player)
     {
-        //TODO Implement this method
+        if(board[col][row] != 0)
+        {return false;}
+        else
+        {
+            board[col][row] = player + 1;
+            placed++;
+        }
+        if (placed == 9) {
+            for (int i = 0; i < board.length; i++)
+            {
+                    for (int j = 0; j < board.length; j++)  {
+                        System.out.println("Row:" + i + " Col:" + j + " value: " + board[i][j]);
+                    }
+                }
+            }
+
         return true;
+
     }
 
     /**

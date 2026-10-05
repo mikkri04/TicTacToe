@@ -13,8 +13,9 @@ public interface IGameBoard
      *
      * @return int Id of the next player.
      */
-    int getNextPlayer();
+    int setNextPlayer();
 
+    int getCurrentPlayer();
     /**
      * Attempts to let the current player play at the given coordinates. If the
      * attempt is succesfull the current player has ended his turn and it is the
@@ -25,7 +26,7 @@ public interface IGameBoard
      * @return true if the move is accepted, otherwise false. If gameOver ==
      * true this method will always return false.
      */
-    boolean play(int col, int row);
+    boolean play(int col, int row, int player);
 
     /**
      * Tells us if the game has ended either by draw or by meeting the winning
