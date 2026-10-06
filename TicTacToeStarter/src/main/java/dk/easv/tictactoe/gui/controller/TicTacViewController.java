@@ -48,20 +48,24 @@ public class TicTacViewController implements Initializable
             Integer col = GridPane.getColumnIndex((Node) event.getSource());
             int r = (row == null) ? 0 : row;
             int c = (col == null) ? 0 : col;
-            game.setNextPlayer();
             int player = game.getCurrentPlayer();
+            Button btn = (Button) event.getSource();
+            String xOrO = player == 1 ? "X" : "O";
+            btn.setText(xOrO);
+            btn.setDisable(true);
+            btn.setOpacity(1);
+
+
             if (game.play(c, r, player))
             {
                 if (game.isGameOver())
                 {
-                    int winner = game.getWinner();
+                    int winner = game.getWinner("");
                     displayWinner(winner);
                 }
                 else
                 {
-                    Button btn = (Button) event.getSource();
-                    String xOrO = player == 0 ? "X" : "O";
-                    btn.setText(xOrO);
+                    game.setNextPlayer();
                     setPlayer();
                 }
             }
@@ -138,7 +142,12 @@ public class TicTacViewController implements Initializable
         for(Node n : gridPane.getChildren())
         {
             Button btn = (Button) n;
+            btn.setOpacity(1);
+            btn.setDisable(false);
             btn.setText("");
         }
     }
+
+
+
 }
