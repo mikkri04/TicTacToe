@@ -34,20 +34,19 @@ public class TicTacViewController implements Initializable
     private static final String TXT_PLAYER = "Player: ";
     private IGameBoard game;
 
-    /**
-     * Event handler for the grid buttons
-     *
-     * @param event
-     */
+    // Handles Button press (for 3x3 buttons in grid pane)
     @FXML
     private void handleButtonAction(ActionEvent event)
     {
         try
         {
+            //Identifies button's placement
             Integer row = GridPane.getRowIndex((Node) event.getSource());
             Integer col = GridPane.getColumnIndex((Node) event.getSource());
+            // Avoids issue with nulls. Replacing with 0
             int r = (row == null) ? 0 : row;
             int c = (col == null) ? 0 : col;
+            // Targets current player, Swaps button text and then disables them so they cant be pressed again.
             int player = game.getCurrentPlayer();
             Button btn = (Button) event.getSource();
             String xOrO = player == 1 ? "X" : "O";
@@ -55,13 +54,14 @@ public class TicTacViewController implements Initializable
             btn.setDisable(true);
             btn.setOpacity(1);
 
-
+            // If said placement is free, check if game is over, else swap to next player
             if (game.play(c, r, player))
             {
                 if (game.isGameOver())
                 {
-                    int winner = game.getWinner("");
+                    int winner = game.getWinner();
                     displayWinner(winner);
+                    freezeButtons();
                 }
                 else
                 {
@@ -75,11 +75,16 @@ public class TicTacViewController implements Initializable
         }
     }
 
-    /**
-     * Event handler for starting a new game
-     *
-     * @param event
-     */
+    // Freezes all buttons, used if a win has been triggerd
+    private void freezeButtons() {
+        for (Node n : gridPane.getChildren()) {
+            Button btn = (Button) n;
+            btn.setDisable(true);
+            btn.setOpacity(1);
+        }
+    }
+
+    // New game button's function. Clears locally stored board, Sets player and clears the visible board
     @FXML
     private void handleNewGame(ActionEvent event)
     {
@@ -88,17 +93,7 @@ public class TicTacViewController implements Initializable
         clearBoard();
     }
 
-    /**
-     * Initializes a new controller
-     *
-     * @param url
-     * The location used to resolve relative paths for the root object, or
-     * {@code null} if the location is not known.
-     *
-     * @param rb
-     * The resources used to localize the root object, or {@code null} if
-     * the root object was not localized.
-     */
+    // Initializes a reference to the GameBoard class and sets the player label.
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -106,19 +101,14 @@ public class TicTacViewController implements Initializable
         setPlayer();
     }
 
-    /**
-     * Set the next player
-     */
+    // Sets player label
     private void setPlayer()
     {
         lblPlayer.setText(TXT_PLAYER + game.getCurrentPlayer());
     }
 
 
-    /**
-     * Finds a winner or a draw and displays a message based
-     * @param winner
-     */
+    // Display winner or draw
     private void displayWinner(int winner)
     {
         String message = "";
@@ -134,9 +124,7 @@ public class TicTacViewController implements Initializable
         lblPlayer.setText(message);
     }
 
-    /**
-     * Clears the game board in the GUI
-     */
+    // Clears the visible board by looping through all buttons in gridpane
     private void clearBoard()
     {
         for(Node n : gridPane.getChildren())
