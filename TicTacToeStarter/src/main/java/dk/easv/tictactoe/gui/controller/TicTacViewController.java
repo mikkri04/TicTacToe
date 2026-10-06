@@ -36,7 +36,7 @@ public class TicTacViewController implements Initializable
 
     @FXML
     private ComboBox<String> cmbMode;
-    
+
     private static final String TXT_PLAYER = "Player: ";
     private IGameBoard game;
     // Handles Button press (for 3x3 buttons in grid pane)
