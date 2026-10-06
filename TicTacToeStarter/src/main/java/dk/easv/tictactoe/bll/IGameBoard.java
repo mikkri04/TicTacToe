@@ -41,7 +41,7 @@ public interface IGameBoard
      *
      * @return int id of winner, or -1 if draw or if gameOver() == false.
      */
-    int getWinner(String where);
+    int getWinner();
 
     /**
      * Resets the game to a new game state.
