@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 // Project imports
 import dk.easv.tictactoe.bll.modes.GameBoard;
 import dk.easv.tictactoe.bll.IGameBoard;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -90,6 +91,7 @@ public class TicTacViewController implements Initializable
                 // Stops play if a player has won or gives the turn to the next player
                 if (game.isGameOver()) {
                     int winner = game.getWinner();
+                    lightWins();
                     displayWinner(winner);
                     disableBoard();
                 } else {
@@ -155,6 +157,7 @@ public class TicTacViewController implements Initializable
         {
             if (n instanceof Button) {
                 Button btn = (Button) n;
+                btn.setTextFill(Color.BLACK);
                 btn.setOpacity(1);
                 btn.setDisable(false);
                 btn.setText("");
@@ -208,4 +211,20 @@ public class TicTacViewController implements Initializable
             game = new GameBoardSmartAi();
         }
     }
+
+    private void lightWins() {
+        // loops through winning tiles
+        for(int n : game.requestTargets()){
+            int loopcounter = 1;
+            // Loops through buttons in gridPane and colors the winning tile.
+            for (Node b : gridPane.getChildren())
+            {
+                if (loopcounter == n) {
+                    Button target = (Button) b;
+                    target.setTextFill(Color.CYAN);
+                }
+                loopcounter++;
+            }
+            }
+        }
 }

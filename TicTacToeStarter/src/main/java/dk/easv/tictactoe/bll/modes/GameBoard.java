@@ -1,6 +1,8 @@
 
 package dk.easv.tictactoe.bll.modes;
 import dk.easv.tictactoe.bll.IGameBoard;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -11,13 +13,11 @@ public class GameBoard implements IGameBoard
 {
     private int activePlayer = 1;
     private int[][] board = new int[3][3];
-    private int winnerNumber = -1;
 
     // Sets the next Player (Works as swap)
     public int setNextPlayer()
     {
         activePlayer = (activePlayer == 1) ? 2 : 1;
-        System.out.println("Next player ran, Current player: " + activePlayer);
         return activePlayer;
     }
     // Returns current player
@@ -46,6 +46,7 @@ public class GameBoard implements IGameBoard
             if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != 0)
             {
                 activePlayer = board[i][0];
+                board[i][0] = board[i][1] = board[i][2] = 50;
                 getWinner();
                 return true;
 
@@ -57,6 +58,7 @@ public class GameBoard implements IGameBoard
             if (board[0][i] == board[1][i] && board[1][i] == board[2][i]  && board[0][i] != 0)
             {
                 activePlayer = board[0][i];
+                board[0][i] = board[1][i] = board[2][i] = 50;
                 getWinner();
                 return true;
 
@@ -66,6 +68,12 @@ public class GameBoard implements IGameBoard
         if (((board[0][0] == board[1][1] && board[1][1] == board[2][2]) || (board[0][2] == board[1][1] && board[1][1] == board[2][0])) && board[1][1] != 0)
         {
             activePlayer = board[1][1];
+            if ((board[0][0] == board[1][1] && board[1][1] == board[2][2])) {
+                board[0][0] = board[1][1] = board[2][2] = 50;
+            }
+            else {
+                board[0][2] = board[1][1] = board[2][0] = 50;
+            }
             getWinner();
             return true;
         }
@@ -79,8 +87,7 @@ public class GameBoard implements IGameBoard
         //Checks if all spaces are filled
         if (spacesFilled == 9)
         {
-            winnerNumber = -1;
-            System.out.println("DRAW!");
+            activePlayer = -1;
             return true;
 
         }
@@ -96,6 +103,26 @@ public class GameBoard implements IGameBoard
     {
         activePlayer = 1;
         for (int[] row : board) Arrays.fill(row, 0);
+
+    }
+
+    public ArrayList<Integer> requestTargets() {
+        // Makes list for targets
+        ArrayList<Integer> targets = new ArrayList<>();
+        int loopcounter = 0;
+        // Loops through board row
+        for (int i = 0; i < board.length; i++)
+        {
+            // Loops through board col and adds win values to list
+            for (int j = 0; j < board.length; j++) {
+                loopcounter++;
+                if (board[j][i] == 50){
+                    targets.add(loopcounter);
+                }
+            }
+        }
+        // Returns list to caller
+        return targets;
 
     }
 }

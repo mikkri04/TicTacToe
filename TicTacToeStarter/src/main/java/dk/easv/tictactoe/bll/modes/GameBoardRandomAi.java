@@ -98,5 +98,19 @@ public class GameBoardRandomAi implements IGameBoard {
     public int[] getLastAiMove() {
         return lastAiMove;
     }
+    public ArrayList<Integer> requestTargets() {
+        ArrayList<Integer> targets = new ArrayList<>();
+        int loopcounter = 0;
+        for (int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board.length; j++) {
+                loopcounter++;
+                if (board[i][j] == 50){
+                    targets.add(loopcounter);
+                }
+            }
+        }
+        return targets;
 
+    }
 }
