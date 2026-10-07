@@ -91,7 +91,7 @@ public class TicTacViewController implements Initializable
                 // Stops play if a player has won or gives the turn to the next player
                 if (game.isGameOver()) {
                     int winner = game.getWinner();
-                    lightWins();
+                    game.win();
                     displayWinner(winner);
                     disableBoard();
                 } else {
@@ -129,6 +129,7 @@ public class TicTacViewController implements Initializable
         cmbMode.setValue("Single Player vs Easy AI");
         setupNewGame();
         setPlayer();
+        game.setController(this);
     }
     // Sets player label
     private void setPlayer()
@@ -203,16 +204,19 @@ public class TicTacViewController implements Initializable
     private void setupNewGame(){
         if (cmbMode.getValue().equals("Single Player vs Easy AI")){
             game = new GameBoardRandomAi();
+            game.setController(this);
         }
         if (cmbMode.getValue().equals("2 Player")){
             game = new GameBoard();
+            game.setController(this);
         }
         if (cmbMode.getValue().equals("Single Player vs Smart AI")){
             game = new GameBoardSmartAi();
+            game.setController(this);
         }
     }
 
-    private void lightWins() {
+    public void lightWins() {
         // loops through winning tiles
         for(int n : game.requestTargets()){
             int loopcounter = 1;

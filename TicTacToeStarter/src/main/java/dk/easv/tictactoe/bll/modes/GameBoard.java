@@ -1,6 +1,8 @@
 
 package dk.easv.tictactoe.bll.modes;
 import dk.easv.tictactoe.bll.IGameBoard;
+import dk.easv.tictactoe.gui.controller.TicTacViewController;
+import javafx.fxml.FXMLLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +15,7 @@ public class GameBoard implements IGameBoard
 {
     private int activePlayer = 1;
     private int[][] board = new int[3][3];
-
+    private TicTacViewController controller;
     // Sets the next Player (Works as swap)
     public int setNextPlayer()
     {
@@ -38,14 +40,17 @@ public class GameBoard implements IGameBoard
 
     }
 
+    public void setController(TicTacViewController control) {
+        controller = control;
+    }
     // Wincon checker & Draw checker
     public boolean isGameOver()
     {
     // Checks for win (top down)
         for(int i = 0; i < board.length; i++) {
-            if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != 0)
+            if (board[i][0]     == board[i][1] && board[i][1] == board[i][2] && board[i][0] != 0)
             {
-                activePlayer = board[i][0];
+                if (board[i][0] == 1) {activePlayer = 1;} else {activePlayer = 2;}
                 board[i][0] = board[i][1] = board[i][2] = 50;
                 getWinner();
                 return true;
@@ -57,7 +62,8 @@ public class GameBoard implements IGameBoard
         for (int i = 0; i < board.length; i++) {
             if (board[0][i] == board[1][i] && board[1][i] == board[2][i]  && board[0][i] != 0)
             {
-                activePlayer = board[0][i];
+                if (board[0][i] == 1) {activePlayer = 1;} else {activePlayer = 2;}
+
                 board[0][i] = board[1][i] = board[2][i] = 50;
                 getWinner();
                 return true;
@@ -67,7 +73,7 @@ public class GameBoard implements IGameBoard
         //Check diagonals
         if (((board[0][0] == board[1][1] && board[1][1] == board[2][2]) || (board[0][2] == board[1][1] && board[1][1] == board[2][0])) && board[1][1] != 0)
         {
-            activePlayer = board[1][1];
+            if (board[1][1] == 1) {activePlayer = 1;} else {activePlayer = 2;}
             if ((board[0][0] == board[1][1] && board[1][1] == board[2][2])) {
                 board[0][0] = board[1][1] = board[2][2] = 50;
             }
@@ -105,7 +111,7 @@ public class GameBoard implements IGameBoard
         for (int[] row : board) Arrays.fill(row, 0);
 
     }
-
+    @Override
     public ArrayList<Integer> requestTargets() {
         // Makes list for targets
         ArrayList<Integer> targets = new ArrayList<>();
@@ -124,5 +130,9 @@ public class GameBoard implements IGameBoard
         // Returns list to caller
         return targets;
 
+    }
+    @Override
+    public void win(){
+        controller.lightWins();
     }
 }

@@ -1,6 +1,8 @@
 
 package dk.easv.tictactoe.bll;
 
+import dk.easv.tictactoe.gui.controller.TicTacViewController;
+
 import java.util.ArrayList;
 
 /**
@@ -44,7 +46,8 @@ public interface IGameBoard
      * @return int id of winner, or -1 if draw or if gameOver() == false.
      */
     int getWinner();
-
+    void win();
+    void setController(TicTacViewController control);
     /**
      * Resets the game to a new game state.
      */
