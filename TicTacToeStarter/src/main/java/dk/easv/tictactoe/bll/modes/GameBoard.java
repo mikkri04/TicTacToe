@@ -48,11 +48,10 @@ public class GameBoard implements IGameBoard
     {
     // Checks for win (top down)
         for(int i = 0; i < board.length; i++) {
-            if (board[i][0]     == board[i][1] && board[i][1] == board[i][2] && board[i][0] != 0)
+            if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != 0)
             {
                 if (board[i][0] == 1) {activePlayer = 1;} else {activePlayer = 2;}
                 board[i][0] = board[i][1] = board[i][2] = 50;
-                getWinner();
                 return true;
 
             }
@@ -65,7 +64,6 @@ public class GameBoard implements IGameBoard
                 if (board[0][i] == 1) {activePlayer = 1;} else {activePlayer = 2;}
 
                 board[0][i] = board[1][i] = board[2][i] = 50;
-                getWinner();
                 return true;
 
             }
@@ -80,7 +78,6 @@ public class GameBoard implements IGameBoard
             else {
                 board[0][2] = board[1][1] = board[2][0] = 50;
             }
-            getWinner();
             return true;
         }
         // Checks how many spaces are filled

@@ -46,13 +46,13 @@ public class TicTacViewController implements Initializable
     {
         try
         {
-            //Identifies button's placement
+            //Finds buttons placement
             Integer row = GridPane.getRowIndex((Node) event.getSource());
             Integer col = GridPane.getColumnIndex((Node) event.getSource());
-            // Avoids issue with nulls. Replacing with 0
+            // Replacing nulls with 0
             int r = (row == null) ? 0 : row;
             int c = (col == null) ? 0 : col;
-            // Target current player, check if box is valid, if valid changes and disables button
+            // Target current player then check if box is valid then if valid changes and disables button
             int player = game.getCurrentPlayer();
             if (game.play(c, r, player)) {
                 Button btn = (Button) event.getSource();
